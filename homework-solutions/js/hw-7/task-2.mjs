@@ -22,7 +22,7 @@ return originalWord === reversed || originalWord === ''
 */
 
 function findLongestWords(sentence) {
-  if (typeof sentence !== 'string' || sentence === '') {
+ if (typeof sentence !== 'string' || sentence === '') {
     return [];
   }
   let longestWordLength = 0;
@@ -30,17 +30,12 @@ function findLongestWords(sentence) {
   let words = sentence.trim().split(/\s+/);
   for (let word of words) {
     if (word.length >= longestWordLength) {
+      if(word.length > longestWordLength) longestWord.length = 0;
       longestWordLength = word.length;
       longestWord.push(word);
     }
   }
-  let resultWord = [...longestWord];
-  for (let i = 0; i < longestWord.length; i++) {
-    if (longestWord[i].length < longestWordLength) {
-      resultWord.splice(i, 1);
-    }
-  }
-  return resultWord;
+  return longestWord.length === 1 ? longestWord[0] : longestWord;
 }
 
 let sentence = 'I am Vasya';

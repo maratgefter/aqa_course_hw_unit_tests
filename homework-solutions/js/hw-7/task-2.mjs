@@ -11,13 +11,7 @@ function isPalindrom(word) {
   const originalWord = word.toLowerCase();
   const reversed = originalWord.split('').reverse().join('');
 
-  if (originalWord === reversed) {
-    return true
-  } else if (originalWord === '') {
-    return true;
-  } else {
-    return false;
-  }
+return originalWord === reversed || originalWord === ''
 }
 
 /*

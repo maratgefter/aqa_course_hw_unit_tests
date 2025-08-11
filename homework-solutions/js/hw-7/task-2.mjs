@@ -8,7 +8,7 @@ function isPalindrom(word) {
     return false;
   }
 
-  const originalWord = word.toLocaleLowerCase();
+  const originalWord = word.toLowerCase();
   const reversed = originalWord.split('').reverse().join('');
 
   if (originalWord === reversed) {

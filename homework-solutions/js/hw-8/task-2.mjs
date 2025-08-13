@@ -18,12 +18,16 @@ const words = [
   'queue',
 ];
 
-const vowelsRegex = /[aeiou]/gi;
+function vowelsCount(word){
+  const vowelsRegex = /[aeiou]/gi;
+  const count = (word.match(vowelsRegex) || []).length;
+  return count;
+}
 
 function sortedByVowels(wordsArr) {
   const sorted = wordsArr.toSorted((a, b) => {
-    const countA = (a.match(vowelsRegex) || []).length;
-    const countB = (b.match(vowelsRegex) || []).length;
+    const countA = vowelsCount(a);
+    const countB = vowelsCount(b);
     return countA - countB;
   });
   return sorted;

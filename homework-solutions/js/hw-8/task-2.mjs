@@ -25,7 +25,7 @@ function sortedByVowels(wordsArr) {
     const countA = (a.match(vowelsRegex) || []).length;
     const countB = (b.match(vowelsRegex) || []).length;
     return countA - countB;
-  })
+  });
   return sorted;
 }
 

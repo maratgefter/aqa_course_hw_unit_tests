@@ -22,23 +22,18 @@ return originalWord === reversed || originalWord === ''
 */
 
 function findLongestWords(sentence) {
- if (typeof sentence !== 'string' || sentence === '') {
+  if (typeof sentence !== 'string' || !sentence.trim()) {
     return [];
   }
-  let longestWordLength = 0;
-  let longestWord = [];
-  let words = sentence.trim().split(/\s+/);
-  for (let word of words) {
-    if (word.length >= longestWordLength) {
-      if(word.length > longestWordLength) longestWord.length = 0;
-      longestWordLength = word.length;
-      longestWord.push(word);
+  const words = sentence.split(' ');
+  let maxLength = 0;
+  for (const word of words) {
+    if (word.length > maxLength) {
+      maxLength = word.length;
     }
   }
-  return longestWord.length === 1 ? longestWord[0] : longestWord;
+  const longestWords = words.filter(word => word.length === maxLength);
+  return longestWords;
 }
-
-let sentence = 'I am Vasya';
-console.log(findLongestWords(sentence));
 
 export { isPalindrom, findLongestWords };

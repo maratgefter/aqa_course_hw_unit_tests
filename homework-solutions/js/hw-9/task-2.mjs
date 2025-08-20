@@ -26,11 +26,10 @@ function getCharacter(name) {
 }
 
 function getCharactersByAge(minAge) {
-  if (typeof minAge === 'number') {
-    return characters.filter((el) => el.age >= minAge);
-  } else {
+  if (typeof minAge !== 'number') {
     throw new Error('Invalid input: age must be a number');
   }
+    return characters.filter((el) => el.age >= minAge);
 }
 
 function updateCharacter(name, newCharacter) {

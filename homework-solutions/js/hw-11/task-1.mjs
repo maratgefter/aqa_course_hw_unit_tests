@@ -105,12 +105,4 @@ class Company {
   }
 }
 
-const company = new Company('Tech Corp', 123456, 'Main Street');
-const emp1 = new Employee('John', 'Doe', 'Developer', 3000);
-const emp2 = new Employee('Barbara', 'Johnson', 'QA', 2500);
-company.addEmployee(emp1);
-company.addEmployee(emp2);
-console.log(company.getEmployees());
-console.log(company.getInfo());
-
 export { Employee, Company };

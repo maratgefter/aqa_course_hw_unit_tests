@@ -83,8 +83,6 @@ class Company {
   }
 
   set phone(value) {
-    //закомментил, так как не прохоил тест на суммарную ЗП, когда нет сотрудников, ругалось, что телефон - стрингой должен быть
-    // if (typeof value !== 'number' || value < 0) throw new Error('This value must be string.');
     this._phone = value;
   }
 

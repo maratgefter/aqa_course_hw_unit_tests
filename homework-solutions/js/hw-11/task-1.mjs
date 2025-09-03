@@ -5,7 +5,7 @@ class Employee {
     this.firstName = firstName;
     this.lastName = lastName;
     this.profession = profession;
-    this.#salary = salary;
+    this.salary = salary;
   }
 
   get firstName() {
@@ -60,7 +60,7 @@ console.log(qa.salary);
 class Company {
   #employees = [];
 
-  constructor(title, phone, address, employees) {
+  constructor(title, phone, address) {
     this.title = title;
     this.phone = phone;
     this.address = address;

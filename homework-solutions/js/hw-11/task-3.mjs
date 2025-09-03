@@ -4,7 +4,7 @@ class Employee {
   constructor(firstName, lastName, salary) {
     this.firstName = firstName;
     this.lastName = lastName;
-    this.#salary = salary;
+    this.salary = salary;
   }
 
   get firstName() {
@@ -30,7 +30,7 @@ class Employee {
   }
 
   set salary(value) {
-    if (typeof value !== 'number' || value <= 0 || value >= 10000 || isNaN(value))
+    if (typeof value !== 'number' || value <= 0 || value >= 100000 || isNaN(value))
       throw new Error('This value must be positive number.');
     this.#salary = value;
   }
@@ -51,7 +51,7 @@ class Employee {
 class Developer extends Employee {
   constructor(firstName, lastName, salary, programmingLanguages = []) {
     super(firstName, lastName, salary);
-    this.programmingLanguages = programmingLanguages;
+    this.programmingLanguages = [...programmingLanguages];
   }
 
   get programmingLanguages() {
@@ -63,9 +63,9 @@ class Developer extends Employee {
   }
 
   addProgrammingLanguage(language) {
-    if (typeof language !== 'string' || language.length < 2 || language.length > 50 || !/^[A-Za-z]+$/.test(language))
+    if (typeof language !== 'string' || language.length < 1 || language.length > 50 || !/^[A-Za-z+#]+$/.test(language))
       throw new Error('This value must be string.');
-    return this.programmingLanguages.push(language);
+    this.programmingLanguages.push(language);
   }
 }
 
@@ -84,14 +84,14 @@ class Manager extends Employee {
   }
 
   increaseTeamSize() {
-    return this.teamSize++;
+    return ++this.teamSize;
   }
 }
 
 class Designer extends Employee {
   constructor(firstName, lastName, salary, designTools = []) {
     super(firstName, lastName, salary);
-    this.designTools = designTools;
+    this.designTools = [...designTools];
   }
 
   get designTools() {

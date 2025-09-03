@@ -5,7 +5,7 @@ class Employee {
     this.firstName = firstName;
     this.lastName = lastName;
     this.profession = profession;
-    this.#salary = salary;
+    this.salary = salary;
   }
 
   get firstName() {
@@ -63,7 +63,7 @@ class Employee {
 class Company {
   #employees = [];
 
-  constructor(title, phone, address, employees) {
+  constructor(title, phone, address) {
     this.title = title;
     this.phone = phone;
     this.address = address;
@@ -111,7 +111,7 @@ class Company {
   }
 
   findEmployeeByName(firstName) {
-    let employee = this.#employees.find((emp) => emp.firstName === firstName);
+    const employee = this.#employees.find((emp) => emp.firstName === firstName);
     if (!employee) {
       throw new Error(`Сотрудник с именем "${firstName}" не найден.`);
     }

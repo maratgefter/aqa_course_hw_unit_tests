@@ -8,3 +8,40 @@
    Обрабатывайте ошибки с помощью try/cath, в конце выведите в консоль текст, что работа функции завершена
 
 */
+
+const baseUrl = 'https://jsonplaceholder.typicode.com/todos';
+
+async function createTodo({ userId, title, completed }) {
+  try {
+    const response = await fetch(baseUrl, {
+      method: 'post',
+      body: {
+        userId,
+        title,
+        completed,
+      },
+    });
+
+    if (response.status !== 201) {
+      throw new Error(`Unexpected status: ${response.status}`);
+    }
+
+    const responseJson = await response.json();
+
+    if (responseJson.id !== 201) {
+      throw new Error(`Unexpected ID: ${responseJson.id}`);
+    }
+
+    return responseJson;
+  } catch (error) {
+    console.error(error.message);
+  } finally {
+    console.log('Работа функции завершена');
+  }
+}
+
+await createTodo({ userId: 201, title: 'random', completed: true }).then((result) => {
+  if (result) {
+    console.log('Созданный todo:', result);
+  }
+});

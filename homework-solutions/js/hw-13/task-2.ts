@@ -8,3 +8,8 @@
   - Пароль не должен состоять из одних пробелов
 Функция должна возвращать false, если хотя бы одно из условий не выполнено.
 */
+
+function validatePassword(password: string): boolean {
+  const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?!^\s+$).{8,}$/;
+  return regex.test(password);
+}

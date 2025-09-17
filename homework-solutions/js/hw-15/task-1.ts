@@ -9,3 +9,31 @@
 8. Создайте тип, который будет содержать все поля из интерфейса IEmployee и сделает их неизменяемыми (readonly)
 9. Создайте объект с помощью Record, в ключах которого будут строки, а в значениях - ключи объекта QA (Используйте Record, keyof, typeof)
 */
+
+interface IEmployee {name: string, salary: number, isManager: boolean };
+
+const QA: IEmployee = {
+    name: "Marat",
+    salary: 100500,
+    isManager: false
+};
+
+type EmployeeKeys = keyof IEmployee;
+
+type QaKeys = keyof typeof QA;
+
+type UserType = typeof QA;
+
+type NotRequired = Partial<IEmployee>;
+
+type RequiredNameSalary = Pick<IEmployee, "name" | "salary">;
+
+type OmitIsManager = Omit<IEmployee, "isManager">;
+
+type ReadonlyEmployee = Readonly<IEmployee>;
+
+const Vasya: Record<string, keyof typeof QA> = {
+  name: 'name',
+  salary: 'salary',
+  isManager: 'isManager',
+};

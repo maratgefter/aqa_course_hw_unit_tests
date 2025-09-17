@@ -16,7 +16,7 @@ console.log(stringArray);
 2. Создайте дженерик функцию getLastElement, которая принимает массив элементов типа T, и возвращает последний элемент (типа T).
 */
 
-function getLastElement<T>(arr: T[]): T {
+function getLastElement<T>(arr: T[]): T | undefined {
   return arr[arr.length - 1];
 }
 

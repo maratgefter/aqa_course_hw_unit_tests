@@ -9,8 +9,6 @@ interface Employee {
 };
 
 function getAvgSalary<T extends Employee>(...args: T[]): number {
-    if (args.length === 0) return 0;
-
     const total = args.reduce((sum, item) => sum + item.salary, 0);
     return total / args.length;
 }

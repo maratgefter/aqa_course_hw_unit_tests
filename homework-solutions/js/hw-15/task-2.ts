@@ -10,7 +10,7 @@ function getKeyByValue<T extends Record<string, any>, V>(
 ): keyof T | undefined {
   for (const key in obj) {
     if (obj[key] === value) {
-      return key as keyof T;
+      return key;
     }
   }
   return undefined;

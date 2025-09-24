@@ -80,6 +80,17 @@ class Enterprise implements IEnterprise {
       throw new Error('Данный отдел нельзя удалить');
     }
   }
+
+  public moveEmployeesBetweenDepartments(from: number, to: number) {
+    const isFromOk = this.departments.find(dep => dep.id === from);
+    const isToOk = this.departments.find(dep => dep.id === to);
+
+    if (isFromOk && isToOk) {
+      isToOk.employees_count += isFromOk.employees_count;
+
+      isFromOk.employees_count = 0;
+    }
+  }
 }
 
 class EnterprisesData {
@@ -211,10 +222,21 @@ class EnterprisesData {
     enterprise.deleteDepartment(id);
   }
 
+  /* 9. Написать функцию для переноса сотрудников между отделами одного предприятия. В качестве аргумента принимает два значения: id отдела, из которого будут переноситься сотрудники и id отдела, в который будут переноситься сотрудники).
 
-  public getEnterprisesList() {
-    return this.enterprises;
+  Пример:
+  moveEmployees(2, 3)*/
+
+  public moveEmployees(from: number, to: number): void {
+    for (const enterprise of this.enterprises) {
+      if (enterprise.checkDepartmentInEnterprise(from) && enterprise.checkDepartmentInEnterprise(to)) {
+        enterprise.moveEmployeesBetweenDepartments(from, to);
+        return;
+      }
+    }
+    throw new Error('Нельзя перенести сотрудников — отделы не принадлежат одному предприятию');
   }
+
 }
 
 const enterprisesData = new EnterprisesData();
@@ -229,20 +251,12 @@ enterprisesData.addDepartment(2, 'Технологический отдел', 2)
 enterprisesData.addDepartment(2, 'Экономический отдел', 175);
 enterprisesData.addDepartment(3, 'Лаборатория', 7);
 enterprisesData.addDepartment(3, 'Реклама', 4);
-// console.log(`Найденное предприятие: ${enterprisesData.getEnterpriseName('Экономический отдел')}`);
-// enterprisesData.editEnterprise(1, 'newRandom');
-// enterprisesData.deleteEnterprise(3);
-// enterprisesData.deleteDepartment(4);
-// enterprisesData.editDepartment(5, 'Updated');
-
-// console.log(JSON.stringify(enterprisesData.getEnterprisesList()));
-
+console.log(`Найденное предприятие: ${enterprisesData.getEnterpriseName('Экономический отдел')}`);
+enterprisesData.editEnterprise(1, 'newRandom');
+enterprisesData.deleteEnterprise(3);
+enterprisesData.deleteDepartment(4);
+enterprisesData.editDepartment(5, 'Updated');
+console.log(enterprisesData.getEnterprisesInfo());
+enterprisesData.moveEmployees(7, 8);
 
 console.log(enterprisesData.getEnterprisesInfo());
-
-// Задания:
-
-// 9. Написать функцию для переноса сотрудников между отделами одного предприятия. В качестве аргумента принимает два значения: id отдела, из которого будут переноситься сотрудники и id отдела, в который будут переноситься сотрудники).
-
-// Пример:
-// moveEmployees(2, 3)

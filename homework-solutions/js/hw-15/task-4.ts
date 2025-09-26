@@ -7,13 +7,62 @@ interface IDepartment {
 interface IEnterprise {
   id: number;
   name: string;
-  departments: IDepartment[];
 };
 
 class Department implements IDepartment {
-  constructor(public id: number, public name: string, public employees_count: number) { }
+  constructor(private _id: number, private _name: string, private _employees_count: number) { }
 
-  public getPluralForm(n: number, one: string, few: string, many: string): string {
+  public get id() {
+    return this._id;
+  }
+
+  public get name() {
+    return this._name;
+  }
+
+  public set name(value: string) {
+    this._name = value;
+  }
+
+  public get employees_count() {
+    return this._employees_count;
+  }
+
+  public set employees_count(value: number) {
+    this._employees_count = value;
+  }
+
+  public getEmployeesCount(): number {
+    return this._employees_count;
+  }
+}
+
+class Enterprise implements IEnterprise {
+  private departments: Department[] = [];
+
+  constructor(private _id: number, private _name: string) { }
+
+  public get id() {
+    return this._id;
+  }
+  public get name() {
+    return this._name;
+  }
+
+  public getDepartments(): ReadonlyArray<IDepartment> {
+    return this.departments.map(dep => ({
+      id: dep.id,
+      name: dep.name,
+      employees_count: dep.employees_count
+    }));
+  }
+
+
+  public set name(value: string) {
+    this._name = value;
+  }
+
+  private getPluralForm(n: number, one: string, few: string, many: string): string {
     const mod10 = n % 10;
     const mod100 = n % 100;
 
@@ -22,23 +71,13 @@ class Department implements IDepartment {
     return many;
   }
 
-  public getEmployeesCount(): string {
-    return `${this.employees_count} ${this.getPluralForm(this.employees_count, 'сотрудник', 'сотрудника', 'сотрудников')}`;
-  }
-}
-
-class Enterprise implements IEnterprise {
-  public departments: Department[] = [];
-
-  constructor(public id: number, public name: string) { }
-
   public addDepartment(id: number, name: string, employees_count: number = 0): void {
     const departament = new Department(id, name, employees_count);
     this.departments.push(departament);
   }
 
   public getDepartmentsInfo(): string {
-    return this.departments.reduce((res, dep) => res += `- ${dep.name} (${dep.getEmployeesCount()})\n`, '')
+    return this.departments.reduce((res, dep) => res += `- ${dep.name} (${dep.getEmployeesCount()} ${this.getPluralForm(dep.getEmployeesCount(), 'сотрудник', 'сотрудника', 'сотрудников')})\n`, '')
   }
 
   public checkDepartmentInEnterprise(departmentIdOrName: number | string): boolean {
@@ -51,8 +90,8 @@ class Enterprise implements IEnterprise {
   }
 
   public getTotalEmployeesCount(): string {
-    const totalEmployeesCount = this.departments.reduce((res, dep) => res += dep.employees_count, 0);
-    return `${totalEmployeesCount} ${this.departments[0]?.getPluralForm(totalEmployeesCount, 'сотрудник', 'сотрудника', 'сотрудников')}`;
+    const totalEmployeesCount = this.departments.reduce((res, dep) => res += dep.getEmployeesCount(), 0);
+    return `${totalEmployeesCount} ${this.getPluralForm(totalEmployeesCount, 'сотрудник', 'сотрудника', 'сотрудников')}`;
   }
 
   public editDepartment(id: number, newName: string) {
@@ -74,7 +113,7 @@ class Enterprise implements IEnterprise {
     }
     const departamentKey = this.departments.findIndex(dep => dep.id === id);
 
-    if (this.departments[departamentKey].employees_count === 0) {
+    if (this.departments[departamentKey].getEmployeesCount() === 0) {
       this.departments.splice(departamentKey, 1);
     } else {
       throw new Error('Данный отдел нельзя удалить');
@@ -86,7 +125,7 @@ class Enterprise implements IEnterprise {
     const isToOk = this.departments.find(dep => dep.id === to);
 
     if (isFromOk && isToOk) {
-      isToOk.employees_count += isFromOk.employees_count;
+      isToOk.employees_count += isFromOk.getEmployeesCount();
 
       isFromOk.employees_count = 0;
     }
@@ -157,7 +196,7 @@ class EnterprisesData {
 
     if (!enterprise) throw new Error('Комания не найдена');
 
-    enterprise.departments.push(new Department(this.idGenerator(), departmentName, employees_count));
+    enterprise.addDepartment(this.idGenerator(), departmentName, employees_count);
   }
 
   /*5. Написать функцию для редактирования названия предприятия. Принимает в качестве аргумента id предприятия и новое имя предприятия.
@@ -180,7 +219,7 @@ class EnterprisesData {
 
   public editDepartment(id: number, newName: string): void {
     const enterprise = this.enterprises.find(ent =>
-      ent.departments.some(dep => dep.id === id)
+      ent.getDepartments().some(dep => dep.id === id)
     );
 
     if (!enterprise) {
@@ -212,7 +251,7 @@ class EnterprisesData {
 
   public deleteDepartment(id: number): void {
     const enterprise = this.enterprises.find(ent =>
-      ent.departments.some(dep => dep.id === id)
+      ent.getDepartments().some(dep => dep.id === id)
     );
 
     if (!enterprise) {

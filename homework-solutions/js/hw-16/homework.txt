@@ -15,7 +15,7 @@ Task 2.
 
   Xpath: кнопку которая содержит текст: ‘Remove comment’
 
-  //*[text()='Remove comment']
+  //button[text()='Remove comment']
 
   Xpath: первый элемент с классом ‘one’
 
